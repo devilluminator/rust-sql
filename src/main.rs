@@ -1,20 +1,20 @@
 // RSQLite
 use rusqlite::{Connection, Result};
-
+#[derive(Debug)]
 struct User {
     id: i32,
     name: String,
     age: i32
 }
 // connect DB
-fn connect_db() -> Result<Connection> {
+pub fn connect_db() -> Result<Connection> {
     let conn = Connection::open("test.db")?;
 // print connected if there is no error
     println!("Connected");
     Ok(conn)
 }
 //  Create table users
-fn create_table(conn: &Connection) -> Result<()> {
+pub fn create_table(conn: &Connection) -> Result<()> {
     conn.execute(
         "CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY,
@@ -26,10 +26,10 @@ fn create_table(conn: &Connection) -> Result<()> {
     Ok(())
 }
 // Insert Data
-fn insert_data(conn: &Connection) -> Result<()> {
+pub fn insert_data(conn: &Connection) -> Result<()> {
     conn.execute(
         "INSERT INTO users (name, age) VALUES (?1, ?2)",
-        ["Imio",33],
+        ["mimi","36"],
     )?;
     Ok(())
 }
@@ -50,7 +50,7 @@ fn main() {
     }).unwrap();
     for user in users {
          match user {
-            Ok(user) => println!("User: {} - {}", user.id, user.name),
+            Ok(user) => println!("User: {} - {} - {}", user.id, user.name, user.age),
             Err(e) => println!("Error: {}", e),
         }
     }
